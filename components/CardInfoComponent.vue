@@ -37,14 +37,8 @@ export default {
   },
   methods: {
     validateForm() {
-      console.log(this.cardNumber.length);
-      console.log(this.selectedMonth.length);
-      console.log(this.selectedYear.length);
-      console.log(this.ccv.length);
-
-      if ( this.validatemonth && this.validateyear && this.validateCCV) {
+      if ( this.cardNumber.length && this.validatemonth && this.validateCCV) {
         this.isFormValid = true
-        console.log(this.isFormValid);
       }
     },
     submitForm() {
@@ -67,11 +61,9 @@ export default {
 
     selectMonth(month) {
       this.selectedMonth = month;
-      console.log(this.selectedMonth);
     },
     selectYear(year) {
       this.selectedYear = year;
-      console.log(this.selectedMonth);
     }
   },
 };

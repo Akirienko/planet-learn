@@ -31,7 +31,6 @@ export default {
 
     const intervalId = setInterval(() => {
       this.useTimer.decrementDuration()
-      console.log('this.useTimer.duration', this.useTimer.duration);
       if (this.useTimer.duration <= 10) {
         this.lastSecond = true;
       }
