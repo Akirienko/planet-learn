@@ -24,6 +24,13 @@ html {
   scroll-behavior: smooth;
 }
 
+*, *:before, *:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
+
 * {
   position: relative;
 }
@@ -86,7 +93,10 @@ section {
 .container {
   padding: 0 20px;
   margin: 0 auto;
-  max-width: 1240px;
+  max-width: 500px;
+  @media (min-width: 1024px) {
+    max-width: 1240px;
+  }
 }
 
 .absolute-center {
@@ -99,4 +109,11 @@ section {
 
 .special-planet-text {
   color: #FF8D24;
+}
+.special-smatr-text {
+  color: #4EAAFF;
+}
+.special-smatr-text-light {
+  color: #66EDFF;
+  font-weight: 800;
 }

@@ -19,11 +19,20 @@ export default {
     '~/assets/styles/main.css',
   ],
 
-  // script: [
-  //   { src: 'bootstrap/js/dist/dropdown.js', mode: 'client' }
-  // ],
+  buildModules: [
+    '@nuxtjs/composition-api/module',
+    '@pinia/nuxt',
+  ],
+  router: {
+    // Run the middleware/user-agent.js on every page
+    middleware: 'abtest'
+  },
 
-  plugins: [],
+  plugins: [
+    {src:'~/plugins/bootstrap.js', mode: 'client'}
+  ],
+
+  // middleware: 'abtest',
 
   components: true,
 

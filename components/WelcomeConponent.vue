@@ -1,3 +1,17 @@
+<script>
+export default {
+  methods: {
+    redirectToRandom() {
+      const variants = ['/variantOne', '/variantTwo'];
+      const randomIndex = Math.floor(Math.random() * variants.length);
+      const randomVariant = variants[randomIndex];
+
+      this.$router.push(randomVariant);
+    }
+  }
+}
+</script>
+
 <template>
   <section class="welcome">
     <div class="container">
@@ -10,7 +24,7 @@
         <div class="welcome-block__buttons">
           <Nuxt-link to="/variantOne" class="btn btn-warning">Variant 1</Nuxt-link>
           <Nuxt-link to="/variantTwo" class="btn btn-primary">Variant 2</Nuxt-link>
-          <Nuxt-link to="" class="btn btn-outline-info">Random</Nuxt-link>
+          <button class="btn btn-outline-info" @click="redirectToRandom">Random</button>
         </div>
       </div>
     </div>
@@ -45,6 +59,7 @@
       }
     }
     &__subtitle {
+      margin-bottom: 20px;
       @media (min-width: 1024px) {
         font-size: 20px;
       }

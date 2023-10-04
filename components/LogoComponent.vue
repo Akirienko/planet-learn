@@ -11,7 +11,9 @@ export default {
 
 <template>
   <div class="logo">
-    <img :src="logo" alt="logo">
+    <div class="container">
+      <img :src="logo" alt="logo">
+    </div>
   </div>
 </template>
 

@@ -1,7 +1,8 @@
 <script>
 export default {
   props: {
-    value: Boolean
+    value: Boolean,
+    pageClass: String
   },
   computed: {
     isOpenModal: {
@@ -32,7 +33,7 @@ export default {
 </script>
 
 <template>
-  <div class="modal fade show" tabindex="-1" role="dialog" v-if="isOpenModal" >
+  <div class="modal fade show" tabindex="-1" role="dialog" v-if="isOpenModal" :class="pageClass">
     <div class="overlay" @click="closeModal"></div>
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -49,7 +50,8 @@ export default {
           <span>OR</span>
         </div>
         <!-- FORM -->
-        <CardInfoComponent />
+        <CardInfoComponent :page-class="pageClass" />
+        <button class="btn close" @click="closeModal">Close</button>
       </div>
     </div>
   </div>
@@ -65,6 +67,29 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #000;
+  &.planet {
+    .modal-content {
+      border-radius: 24px;
+      background: #4D5E82;
+      .line {
+      span {
+        background: #4D5E82;
+        color: #fff;
+      }
+      &::after {
+        background: #617398;
+      }
+    }
+    }
+  }
+  .close {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 140%;
+    letter-spacing: -0.36px;
+    color: #c1c1c1;
+  }
   .overlay {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.2);
@@ -77,8 +102,12 @@ export default {
   &-content {
     padding: 24px 16px 16px 16px;
     min-width: 320px;
+    max-width: 400px;
     text-align: center;
     box-shadow: 0px 0px 0px 4px rgba(0, 0, 0, 0.05);
+    h3 {
+      margin-bottom: 24px;
+    }
     .line {
       height: 18px;
       margin-bottom: 16px;
@@ -117,10 +146,15 @@ export default {
     .btn-google {
       border: 1px solid #E1E1E1;
       margin-bottom: 16px;
+      background: #fff;
       img {
         width: 24px;
         height: 24px;
         margin-right: 6px;
+      }
+      &:hover {
+        background: #000;
+        color: #fff;
       }
     }
   }

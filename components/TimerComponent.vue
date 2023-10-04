@@ -1,18 +1,19 @@
 <script>
+import { useTimerStore } from '@/store/timerStore'
+
 export default {
   data() {
     return {
-      duration: 10,
       isTime: true,
+      useTimer: useTimerStore(),
+      lastSecond: false,
     };
   },
-  computed: {
-    timer() {
-      return this.duration;
-    },
-    progressBarWidth() {
-      return (1 - this.duration / 10) * 100;
-    },
+  props: {
+    customClass: {
+      type: String,
+      default: ''
+    }
   },
   methods: {
     formatTime(seconds) {
@@ -22,22 +23,30 @@ export default {
     },
   },
   mounted() {
-    setInterval(() => {
-      this.duration--;
-      if (this.duration <= 0) {
-        this.duration = 0;
-        this.isTime = false;
+    const timer = +this.useTimer.localDuration;
 
-        
-        console.log("Таймер завершено!");
+    if (timer) {
+      this.useTimer.initTimer()
+    }
+
+    const intervalId = setInterval(() => {
+      this.useTimer.decrementDuration()
+      console.log('this.useTimer.duration', this.useTimer.duration);
+      if (this.useTimer.duration <= 10) {
+        this.lastSecond = true;
+      }
+      if (this.useTimer.duration <= 0) {
+        clearInterval(intervalId);
+        this.isTime = false;
       }
     }, 1000);
   },
 };
+
 </script>
 
 <template>
-  <div class="timer-card" :class="isTime ? '' : 'time-over'">
+  <div class="timer-card" :class="[customClass, isTime ? '' : 'time-over']">
     <div class="timer-card__price">
       <h5 class="timer-card__price_title">
         3-day trial for
@@ -52,9 +61,9 @@ export default {
          {{ isTime ? '$39.99/week' : 'Then $39.99/week' }}
       </span>
     </div>
-    <div class="timer-card__timer">
-      <div class="green_line" :style="{ width: 'calc(100% - ' + progressBarWidth + '%)' }"></div>
-      <span class="time">{{ formatTime(timer) }}</span>
+    <div class="timer-card__timer" :class="lastSecond ? 'last-second' : ''">
+      <div class="line" :style="{ width: 'calc(100% - ' + useTimer.progressBarWidth + '%)' }"></div>
+      <span class="time">{{ formatTime(useTimer.duration) }}</span>
     </div>
   </div>
 </template>
@@ -70,6 +79,34 @@ export default {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 24px;
+  &.absolute {
+    position: absolute;
+    width: 100%;
+    top: -120px;
+    left: 0;
+    width: -webkit-fill-available;
+    @media (min-width:1024px) {
+      position: relative;
+      top: 0;
+    }
+  }
+  &.smart-timer {
+    border-radius: 24px;
+    background: rgba(0, 0, 0, 0.60);
+    border: none;
+    .timer-card__price_title {
+      color: #66EDFF;
+      span {
+        color: #66EDFF;
+      }
+    }
+    .line {
+      background: #4EAAFF;
+    }
+    @media (min-width:1024px) {
+      background: transparent;
+    }
+  }
   &.time-over {
     justify-content: center;
     text-align: center;
@@ -110,7 +147,11 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    .green_line {
+    &.last-second {
+      border: 2px solid rgb(255, 0, 0);
+      box-shadow: 0px 0px 10px 0px rgba(255, 0, 0, 0.80);
+    }
+    .line {
       position: absolute;
       z-index: 1;
       width: 100%;
@@ -125,6 +166,30 @@ export default {
       font-size: 24px;
       font-weight: 600;
       line-height: 140%;
+    }
+  }
+  @media (min-width:1024px) {
+    border: none;
+    box-shadow: none;
+    &.time-over {
+      justify-content: flex-start;
+      text-align: left;
+      .timer-card__price {
+        &_full_price {
+          font-size: 20px;
+        }
+      }
+    }
+    &__price {
+      &_title {
+        font-size: 24px;
+      }
+      &_discont {
+        font-size: 20px;
+      }
+      &_full_price {
+        font-size: 16px;
+      }
     }
   }
 }
